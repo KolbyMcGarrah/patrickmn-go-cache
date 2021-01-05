@@ -13,7 +13,7 @@ import (
 func Example() {
 	var (
 		c            = pcache.New(time.Minute, time.Minute)
-		cacheWrapper = cache.Wrap(c, "default")
+		cacheWrapper = cache.Wrap(c, cache.WithAllTraceOptions())
 
 		found bool
 		val   interface{}
