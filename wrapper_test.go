@@ -22,7 +22,7 @@ type TestStruct struct {
 }
 
 func TestCache(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 
 	a, found := tc.Get(context.Background(), "a")
 	if found || a != nil {
@@ -77,7 +77,7 @@ func TestCache(t *testing.T) {
 func TestCacheTimes(t *testing.T) {
 	var found bool
 
-	tc := Wrap(pgocache.New(50*time.Millisecond, 1*time.Millisecond), "test")
+	tc := Wrap(pgocache.New(50*time.Millisecond, 1*time.Millisecond), WithAllTraceOptions())
 	tc.Set(context.Background(), "a", 1, pgocache.DefaultExpiration)
 	tc.Set(context.Background(), "b", 2, pgocache.NoExpiration)
 	tc.Set(context.Background(), "c", 3, 20*time.Millisecond)
@@ -123,7 +123,7 @@ func TestNewFrom(t *testing.T) {
 			Expiration: 0,
 		},
 	}
-	tc := Wrap(pgocache.NewFrom(pgocache.DefaultExpiration, 0, m), "test")
+	tc := Wrap(pgocache.NewFrom(pgocache.DefaultExpiration, 0, m), WithAllTraceOptions())
 	a, found := tc.Get(context.Background(), "a")
 	if !found {
 		t.Fatal("Did not find a")
@@ -141,7 +141,7 @@ func TestNewFrom(t *testing.T) {
 }
 
 func TestStorePointerToStruct(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "foo", &TestStruct{Num: 1}, pgocache.DefaultExpiration)
 	x, found := tc.Get(context.Background(), "foo")
 	if !found {
@@ -161,7 +161,7 @@ func TestStorePointerToStruct(t *testing.T) {
 }
 
 func TestIncrementWithInt(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tint", 1, pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "tint", 2)
 	if err != nil {
@@ -177,7 +177,7 @@ func TestIncrementWithInt(t *testing.T) {
 }
 
 func TestIncrementWithInt8(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tint8", int8(1), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "tint8", 2)
 	if err != nil {
@@ -193,7 +193,7 @@ func TestIncrementWithInt8(t *testing.T) {
 }
 
 func TestIncrementWithInt16(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tint16", int16(1), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "tint16", 2)
 	if err != nil {
@@ -209,7 +209,7 @@ func TestIncrementWithInt16(t *testing.T) {
 }
 
 func TestIncrementWithInt32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tint32", int32(1), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "tint32", 2)
 	if err != nil {
@@ -225,7 +225,7 @@ func TestIncrementWithInt32(t *testing.T) {
 }
 
 func TestIncrementWithInt64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tint64", int64(1), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "tint64", 2)
 	if err != nil {
@@ -241,7 +241,7 @@ func TestIncrementWithInt64(t *testing.T) {
 }
 
 func TestIncrementWithUint(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuint", uint(1), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "tuint", 2)
 	if err != nil {
@@ -257,7 +257,7 @@ func TestIncrementWithUint(t *testing.T) {
 }
 
 func TestIncrementWithUintptr(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuintptr", uintptr(1), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "tuintptr", 2)
 	if err != nil {
@@ -274,7 +274,7 @@ func TestIncrementWithUintptr(t *testing.T) {
 }
 
 func TestIncrementWithUint8(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuint8", uint8(1), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "tuint8", 2)
 	if err != nil {
@@ -290,7 +290,7 @@ func TestIncrementWithUint8(t *testing.T) {
 }
 
 func TestIncrementWithUint16(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuint16", uint16(1), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "tuint16", 2)
 	if err != nil {
@@ -307,7 +307,7 @@ func TestIncrementWithUint16(t *testing.T) {
 }
 
 func TestIncrementWithUint32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuint32", uint32(1), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "tuint32", 2)
 	if err != nil {
@@ -323,7 +323,7 @@ func TestIncrementWithUint32(t *testing.T) {
 }
 
 func TestIncrementWithUint64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuint64", uint64(1), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "tuint64", 2)
 	if err != nil {
@@ -340,7 +340,7 @@ func TestIncrementWithUint64(t *testing.T) {
 }
 
 func TestIncrementWithFloat32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float32", float32(1.5), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "float32", 2)
 	if err != nil {
@@ -356,7 +356,7 @@ func TestIncrementWithFloat32(t *testing.T) {
 }
 
 func TestIncrementWithFloat64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float64", float64(1.5), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "float64", 2)
 	if err != nil {
@@ -372,7 +372,7 @@ func TestIncrementWithFloat64(t *testing.T) {
 }
 
 func TestIncrementFloatWithFloat32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float32", float32(1.5), pgocache.DefaultExpiration)
 	err := tc.IncrementFloat(context.Background(), "float32", 2)
 	if err != nil {
@@ -388,7 +388,7 @@ func TestIncrementFloatWithFloat32(t *testing.T) {
 }
 
 func TestIncrementFloatWithFloat64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float64", float64(1.5), pgocache.DefaultExpiration)
 	err := tc.IncrementFloat(context.Background(), "float64", 2)
 	if err != nil {
@@ -404,7 +404,7 @@ func TestIncrementFloatWithFloat64(t *testing.T) {
 }
 
 func TestDecrementWithInt(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "int", int(5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "int", 2)
 	if err != nil {
@@ -420,7 +420,7 @@ func TestDecrementWithInt(t *testing.T) {
 }
 
 func TestDecrementWithInt8(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "int8", int8(5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "int8", 2)
 	if err != nil {
@@ -436,7 +436,7 @@ func TestDecrementWithInt8(t *testing.T) {
 }
 
 func TestDecrementWithInt16(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "int16", int16(5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "int16", 2)
 	if err != nil {
@@ -452,7 +452,7 @@ func TestDecrementWithInt16(t *testing.T) {
 }
 
 func TestDecrementWithInt32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "int32", int32(5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "int32", 2)
 	if err != nil {
@@ -468,7 +468,7 @@ func TestDecrementWithInt32(t *testing.T) {
 }
 
 func TestDecrementWithInt64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "int64", int64(5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "int64", 2)
 	if err != nil {
@@ -484,7 +484,7 @@ func TestDecrementWithInt64(t *testing.T) {
 }
 
 func TestDecrementWithUint(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint", uint(5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "uint", 2)
 	if err != nil {
@@ -500,7 +500,7 @@ func TestDecrementWithUint(t *testing.T) {
 }
 
 func TestDecrementWithUintptr(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uintptr", uintptr(5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "uintptr", 2)
 	if err != nil {
@@ -516,7 +516,7 @@ func TestDecrementWithUintptr(t *testing.T) {
 }
 
 func TestDecrementWithUint8(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint8", uint8(5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "uint8", 2)
 	if err != nil {
@@ -532,7 +532,7 @@ func TestDecrementWithUint8(t *testing.T) {
 }
 
 func TestDecrementWithUint16(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint16", uint16(5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "uint16", 2)
 	if err != nil {
@@ -548,7 +548,7 @@ func TestDecrementWithUint16(t *testing.T) {
 }
 
 func TestDecrementWithUint32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint32", uint32(5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "uint32", 2)
 	if err != nil {
@@ -564,7 +564,7 @@ func TestDecrementWithUint32(t *testing.T) {
 }
 
 func TestDecrementWithUint64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint64", uint64(5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "uint64", 2)
 	if err != nil {
@@ -580,7 +580,7 @@ func TestDecrementWithUint64(t *testing.T) {
 }
 
 func TestDecrementWithFloat32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float32", float32(5.5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "float32", 2)
 	if err != nil {
@@ -596,7 +596,7 @@ func TestDecrementWithFloat32(t *testing.T) {
 }
 
 func TestDecrementWithFloat64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float64", float64(5.5), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "float64", 2)
 	if err != nil {
@@ -612,7 +612,7 @@ func TestDecrementWithFloat64(t *testing.T) {
 }
 
 func TestDecrementFloatWithFloat32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float32", float32(5.5), pgocache.DefaultExpiration)
 	err := tc.DecrementFloat(context.Background(), "float32", 2)
 	if err != nil {
@@ -628,7 +628,7 @@ func TestDecrementFloatWithFloat32(t *testing.T) {
 }
 
 func TestDecrementFloatWithFloat64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float64", float64(5.5), pgocache.DefaultExpiration)
 	err := tc.DecrementFloat(context.Background(), "float64", 2)
 	if err != nil {
@@ -644,7 +644,7 @@ func TestDecrementFloatWithFloat64(t *testing.T) {
 }
 
 func TestIncrementInt(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tint", 1, pgocache.DefaultExpiration)
 	n, err := tc.IncrementInt(context.Background(), "tint", 2)
 	if err != nil {
@@ -663,7 +663,7 @@ func TestIncrementInt(t *testing.T) {
 }
 
 func TestIncrementInt8(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tint8", int8(1), pgocache.DefaultExpiration)
 	n, err := tc.IncrementInt8(context.Background(), "tint8", 2)
 	if err != nil {
@@ -682,7 +682,7 @@ func TestIncrementInt8(t *testing.T) {
 }
 
 func TestIncrementInt16(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tint16", int16(1), pgocache.DefaultExpiration)
 	n, err := tc.IncrementInt16(context.Background(), "tint16", 2)
 	if err != nil {
@@ -701,7 +701,7 @@ func TestIncrementInt16(t *testing.T) {
 }
 
 func TestIncrementInt32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tint32", int32(1), pgocache.DefaultExpiration)
 	n, err := tc.IncrementInt32(context.Background(), "tint32", 2)
 	if err != nil {
@@ -720,7 +720,7 @@ func TestIncrementInt32(t *testing.T) {
 }
 
 func TestIncrementInt64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tint64", int64(1), pgocache.DefaultExpiration)
 	n, err := tc.IncrementInt64(context.Background(), "tint64", 2)
 	if err != nil {
@@ -739,7 +739,7 @@ func TestIncrementInt64(t *testing.T) {
 }
 
 func TestIncrementUint(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuint", uint(1), pgocache.DefaultExpiration)
 	n, err := tc.IncrementUint(context.Background(), "tuint", 2)
 	if err != nil {
@@ -758,7 +758,7 @@ func TestIncrementUint(t *testing.T) {
 }
 
 func TestIncrementUintptr(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuintptr", uintptr(1), pgocache.DefaultExpiration)
 	n, err := tc.IncrementUintptr(context.Background(), "tuintptr", 2)
 	if err != nil {
@@ -777,7 +777,7 @@ func TestIncrementUintptr(t *testing.T) {
 }
 
 func TestIncrementUint8(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuint8", uint8(1), pgocache.DefaultExpiration)
 	n, err := tc.IncrementUint8(context.Background(), "tuint8", 2)
 	if err != nil {
@@ -796,7 +796,7 @@ func TestIncrementUint8(t *testing.T) {
 }
 
 func TestIncrementUint16(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuint16", uint16(1), pgocache.DefaultExpiration)
 	n, err := tc.IncrementUint16(context.Background(), "tuint16", 2)
 	if err != nil {
@@ -815,7 +815,7 @@ func TestIncrementUint16(t *testing.T) {
 }
 
 func TestIncrementUint32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuint32", uint32(1), pgocache.DefaultExpiration)
 	n, err := tc.IncrementUint32(context.Background(), "tuint32", 2)
 	if err != nil {
@@ -834,7 +834,7 @@ func TestIncrementUint32(t *testing.T) {
 }
 
 func TestIncrementUint64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "tuint64", uint64(1), pgocache.DefaultExpiration)
 	n, err := tc.IncrementUint64(context.Background(), "tuint64", 2)
 	if err != nil {
@@ -853,7 +853,7 @@ func TestIncrementUint64(t *testing.T) {
 }
 
 func TestIncrementFloat32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float32", float32(1.5), pgocache.DefaultExpiration)
 	n, err := tc.IncrementFloat32(context.Background(), "float32", 2)
 	if err != nil {
@@ -872,7 +872,7 @@ func TestIncrementFloat32(t *testing.T) {
 }
 
 func TestIncrementFloat64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float64", float64(1.5), pgocache.DefaultExpiration)
 	n, err := tc.IncrementFloat64(context.Background(), "float64", 2)
 	if err != nil {
@@ -891,7 +891,7 @@ func TestIncrementFloat64(t *testing.T) {
 }
 
 func TestDecrementInt8(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "int8", int8(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementInt8(context.Background(), "int8", 2)
 	if err != nil {
@@ -910,7 +910,7 @@ func TestDecrementInt8(t *testing.T) {
 }
 
 func TestDecrementInt16(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "int16", int16(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementInt16(context.Background(), "int16", 2)
 	if err != nil {
@@ -929,7 +929,7 @@ func TestDecrementInt16(t *testing.T) {
 }
 
 func TestDecrementInt32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "int32", int32(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementInt32(context.Background(), "int32", 2)
 	if err != nil {
@@ -948,7 +948,7 @@ func TestDecrementInt32(t *testing.T) {
 }
 
 func TestDecrementInt64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "int64", int64(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementInt64(context.Background(), "int64", 2)
 	if err != nil {
@@ -967,7 +967,7 @@ func TestDecrementInt64(t *testing.T) {
 }
 
 func TestDecrementUint(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint", uint(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementUint(context.Background(), "uint", 2)
 	if err != nil {
@@ -986,7 +986,7 @@ func TestDecrementUint(t *testing.T) {
 }
 
 func TestDecrementUintptr(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uintptr", uintptr(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementUintptr(context.Background(), "uintptr", 2)
 	if err != nil {
@@ -1005,7 +1005,7 @@ func TestDecrementUintptr(t *testing.T) {
 }
 
 func TestDecrementUint8(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint8", uint8(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementUint8(context.Background(), "uint8", 2)
 	if err != nil {
@@ -1024,7 +1024,7 @@ func TestDecrementUint8(t *testing.T) {
 }
 
 func TestDecrementUint16(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint16", uint16(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementUint16(context.Background(), "uint16", 2)
 	if err != nil {
@@ -1043,7 +1043,7 @@ func TestDecrementUint16(t *testing.T) {
 }
 
 func TestDecrementUint32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint32", uint32(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementUint32(context.Background(), "uint32", 2)
 	if err != nil {
@@ -1062,7 +1062,7 @@ func TestDecrementUint32(t *testing.T) {
 }
 
 func TestDecrementUint64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint64", uint64(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementUint64(context.Background(), "uint64", 2)
 	if err != nil {
@@ -1081,7 +1081,7 @@ func TestDecrementUint64(t *testing.T) {
 }
 
 func TestDecrementFloat32(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float32", float32(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementFloat32(context.Background(), "float32", 2)
 	if err != nil {
@@ -1100,7 +1100,7 @@ func TestDecrementFloat32(t *testing.T) {
 }
 
 func TestDecrementFloat64(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "float64", float64(5), pgocache.DefaultExpiration)
 	n, err := tc.DecrementFloat64(context.Background(), "float64", 2)
 	if err != nil {
@@ -1119,7 +1119,7 @@ func TestDecrementFloat64(t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	err := tc.Add(context.Background(), "foo", "bar", pgocache.DefaultExpiration)
 	if err != nil {
 		t.Error("Couldn't add foo even though it shouldn't exist")
@@ -1131,7 +1131,7 @@ func TestAdd(t *testing.T) {
 }
 
 func TestReplace(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	err := tc.Replace(context.Background(), "foo", "bar", pgocache.DefaultExpiration)
 	if err == nil {
 		t.Error("Replaced foo when it shouldn't exist")
@@ -1144,7 +1144,7 @@ func TestReplace(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "foo", "bar", pgocache.DefaultExpiration)
 	tc.Delete(context.Background(), "foo")
 	x, found := tc.Get(context.Background(), "foo")
@@ -1157,7 +1157,7 @@ func TestDelete(t *testing.T) {
 }
 
 func TestItemCount(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "foo", "1", pgocache.DefaultExpiration)
 	tc.Set(context.Background(), "bar", "2", pgocache.DefaultExpiration)
 	tc.Set(context.Background(), "baz", "3", pgocache.DefaultExpiration)
@@ -1167,7 +1167,7 @@ func TestItemCount(t *testing.T) {
 }
 
 func TestFlush(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "foo", "bar", pgocache.DefaultExpiration)
 	tc.Set(context.Background(), "baz", "yes", pgocache.DefaultExpiration)
 	tc.Flush(context.Background())
@@ -1188,7 +1188,7 @@ func TestFlush(t *testing.T) {
 }
 
 func TestIncrementOverflowInt(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "int8", int8(127), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "int8", 1)
 	if err != nil {
@@ -1203,7 +1203,7 @@ func TestIncrementOverflowInt(t *testing.T) {
 }
 
 func TestIncrementOverflowUint(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint8", uint8(255), pgocache.DefaultExpiration)
 	err := tc.Increment(context.Background(), "uint8", 1)
 	if err != nil {
@@ -1217,7 +1217,7 @@ func TestIncrementOverflowUint(t *testing.T) {
 }
 
 func TestDecrementUnderflowUint(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "uint8", uint8(0), pgocache.DefaultExpiration)
 	err := tc.Decrement(context.Background(), "uint8", 1)
 	if err != nil {
@@ -1231,7 +1231,7 @@ func TestDecrementUnderflowUint(t *testing.T) {
 }
 
 func TestOnEvicted(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "foo", 3, pgocache.DefaultExpiration)
 	works := false
 	tc.OnEvicted(context.Background(), func(k string, v interface{}) {
@@ -1251,7 +1251,7 @@ func TestOnEvicted(t *testing.T) {
 }
 
 func TestFileSerialization(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Add(context.Background(), "a", "a", pgocache.DefaultExpiration)
 	tc.Add(context.Background(), "b", "b", pgocache.DefaultExpiration)
 	f, err := ioutil.TempFile("", "go-cache-cache.dat")
@@ -1290,7 +1290,7 @@ func TestFileSerialization(t *testing.T) {
 }
 
 func TestSerializeUnserializable(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	ch := make(chan bool, 1)
 	ch <- true
 	tc.Set(context.Background(), "chan", ch, pgocache.DefaultExpiration)
@@ -1311,7 +1311,7 @@ func BenchmarkCacheGetNotExpiring(b *testing.B) {
 
 func benchmarkCacheGet(b *testing.B, exp time.Duration) {
 	b.StopTimer()
-	tc := Wrap(pgocache.New(exp, 0), "test")
+	tc := Wrap(pgocache.New(exp, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "foo", "bar", pgocache.DefaultExpiration)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -1372,7 +1372,7 @@ func BenchmarkCacheGetConcurrentNotExpiring(b *testing.B) {
 
 func benchmarkCacheGetConcurrent(b *testing.B, exp time.Duration) {
 	b.StopTimer()
-	tc := Wrap(pgocache.New(exp, 0), "test")
+	tc := Wrap(pgocache.New(exp, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "foo", "bar", pgocache.DefaultExpiration)
 	wg := new(sync.WaitGroup)
 	workers := runtime.NumCPU()
@@ -1428,7 +1428,7 @@ func benchmarkCacheGetManyConcurrent(b *testing.B, exp time.Duration) {
 	// in sharded_test.go.
 	b.StopTimer()
 	n := 10000
-	tc := Wrap(pgocache.New(exp, 0), "test")
+	tc := Wrap(pgocache.New(exp, 0), WithAllTraceOptions())
 	keys := make([]string, n)
 	for i := 0; i < n; i++ {
 		k := "foo" + strconv.Itoa(i)
@@ -1460,7 +1460,7 @@ func BenchmarkCacheSetNotExpiring(b *testing.B) {
 
 func benchmarkCacheSet(b *testing.B, exp time.Duration) {
 	b.StopTimer()
-	tc := Wrap(pgocache.New(exp, 0), "test")
+	tc := Wrap(pgocache.New(exp, 0), WithAllTraceOptions())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		tc.Set(context.Background(), "foo", "bar", pgocache.DefaultExpiration)
@@ -1481,7 +1481,7 @@ func BenchmarkRWMutexMapSet(b *testing.B) {
 
 func BenchmarkCacheSetDelete(b *testing.B) {
 	b.StopTimer()
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		tc.Set(context.Background(), "foo", "bar", pgocache.DefaultExpiration)
@@ -1506,7 +1506,7 @@ func BenchmarkRWMutexMapSetDelete(b *testing.B) {
 
 func BenchmarkCacheSetDeleteSingleLock(b *testing.B) {
 	b.StopTimer()
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
 		tc.Set(context.Background(), "foo", "bar", pgocache.DefaultExpiration)
@@ -1529,7 +1529,7 @@ func BenchmarkRWMutexMapSetDeleteSingleLock(b *testing.B) {
 
 func BenchmarkIncrementInt(b *testing.B) {
 	b.StopTimer()
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 	tc.Set(context.Background(), "foo", 0, pgocache.DefaultExpiration)
 	b.StartTimer()
 	for i := 0; i < b.N; i++ {
@@ -1539,7 +1539,7 @@ func BenchmarkIncrementInt(b *testing.B) {
 
 func BenchmarkDeleteExpiredLoop(b *testing.B) {
 	b.StopTimer()
-	tc := Wrap(pgocache.New(5*time.Minute, 0), "test")
+	tc := Wrap(pgocache.New(5*time.Minute, 0), WithAllTraceOptions())
 	for i := 0; i < 100000; i++ {
 		tc.Set(context.Background(), strconv.Itoa(i), "bar", pgocache.DefaultExpiration)
 	}
@@ -1550,7 +1550,7 @@ func BenchmarkDeleteExpiredLoop(b *testing.B) {
 }
 
 func TestGetWithExpiration(t *testing.T) {
-	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), "test")
+	tc := Wrap(pgocache.New(pgocache.DefaultExpiration, 0), WithAllTraceOptions())
 
 	a, expiration, found := tc.GetWithExpiration(context.Background(), "a")
 	if found || a != nil || !expiration.IsZero() {
