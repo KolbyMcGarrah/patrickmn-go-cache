@@ -16,24 +16,17 @@ func AllowTrace(ctx context.Context, allow, root bool) bool {
 	return allow && (root || trace.FromContext(ctx) != nil)
 }
 
-// StartSpan starts a trace span based on teh
+// StartSpan creates a span on the given call and returns a SpanWrapper. SpanWrapper will be nil if no parentSpan exists and creating new spans is disabled
 func StartSpan(ctx context.Context, spanName string, options TraceOptions) *SpanWrapper {
 	parentSpan := trace.FromContext(ctx)
-	if options.AllowRoot && parentSpan == nil {
+	if !options.AllowRoot && parentSpan == nil {
 		return nil
 	}
 	var span *trace.Span
-	if parentSpan != nil {
-		_, span = trace.StartSpan(ctx, spanName,
-			trace.WithSpanKind(trace.SpanKindClient),
-			trace.WithSampler(options.Sampler),
-		)
-	} else {
-		ctx, span = trace.StartSpan(ctx, spanName,
-			trace.WithSpanKind(trace.SpanKindClient),
-			trace.WithSampler(options.Sampler),
-		)
-	}
+	_, span = trace.StartSpan(ctx, spanName,
+		trace.WithSpanKind(trace.SpanKindClient),
+		trace.WithSampler(options.Sampler),
+	)
 	if len(options.DefaultAttributes) > 0 {
 		span.AddAttributes(options.DefaultAttributes...)
 	}
