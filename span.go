@@ -23,17 +23,10 @@ func StartSpan(ctx context.Context, spanName string, options TraceOptions) *Span
 		return nil
 	}
 	var span *trace.Span
-	if parentSpan != nil {
-		_, span = trace.StartSpan(ctx, spanName,
-			trace.WithSpanKind(trace.SpanKindClient),
-			trace.WithSampler(options.Sampler),
-		)
-	} else {
-		ctx, span = trace.StartSpan(ctx, spanName,
-			trace.WithSpanKind(trace.SpanKindClient),
-			trace.WithSampler(options.Sampler),
-		)
-	}
+	_, span = trace.StartSpan(ctx, spanName,
+		trace.WithSpanKind(trace.SpanKindClient),
+		trace.WithSampler(options.Sampler),
+	)
 	if len(options.DefaultAttributes) > 0 {
 		span.AddAttributes(options.DefaultAttributes...)
 	}
